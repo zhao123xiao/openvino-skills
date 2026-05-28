@@ -1,0 +1,4 @@
+interface:
+  display_name: "OpenVINO SOP"
+  short_description: "Deploy, test, and quantize OpenVINO models"
+  default_prompt: "Use $openvino-skills to convert, quantize, deploy, and validate this model with OpenVINO."
