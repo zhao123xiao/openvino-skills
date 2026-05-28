@@ -5,6 +5,10 @@ description: End-to-end OpenVINO standard operating procedures for model convers
 
 # OpenVINO SOP
 
+## Language
+
+Use Chinese by default for user-facing explanations, progress updates, final reports, and troubleshooting summaries. Keep command names, code, model ids, file paths, API names, and OpenVINO technical terms in their original form when that is clearer or required for execution.
+
 ## Core Rule
 
 Treat OpenVINO work as a pipeline: lock inputs, convert or pull the model, validate files, run a smoke test, deploy, benchmark, then document the exact device/config/result. Do not jump straight to deployment before the artifact has been validated locally.

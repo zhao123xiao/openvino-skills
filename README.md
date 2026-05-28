@@ -1,20 +1,22 @@
 # OpenVINO Skills
 
-`openvino-skills` is a Codex skill that turns local OpenVINO knowledge-base content into repeatable SOPs for model conversion, quantization, deployment, smoke testing, benchmarking, device selection, and troubleshooting.
+`openvino-skills` 是一个 Codex skill，用来把本地 OpenVINO 知识库中的内容固化为可重复执行的 SOP，覆盖模型转换、量化、部署、冒烟测试、Benchmark、设备选择和排障。
 
-The skill is designed for practical OpenVINO work rather than passive documentation lookup. It guides an agent through concrete routes such as exporting Hugging Face models to OpenVINO IR, compressing LLMs to INT4/INT8, deploying through OpenVINO Model Server, testing `/v3` OpenAI-compatible endpoints, and benchmarking CPU/GPU/NPU targets.
+该 skill 的目标不是复述官方文档，而是降低 OpenVINO 实操门槛：引导 agent 走固定路线，例如将 Hugging Face 模型导出为 OpenVINO IR、将 LLM 压缩为 INT4/INT8、通过 OpenVINO Model Server 部署服务、测试 `/v3` OpenAI-compatible endpoint，以及评估 CPU/GPU/NPU 性能。
 
-## What It Covers
+默认使用中文输出说明、进度、结论和排障建议；命令、代码、模型 ID、文件路径和 API 名称保持原样。
 
-- Model conversion with `ovc`, `openvino.convert_model`, and `optimum-cli export openvino`.
-- INT4/INT8/NF4 and NNCF-oriented quantization decisions.
-- Deployment through Python runtime, OpenVINO GenAI, OVMS Docker, OVMS bare metal, and KServe.
-- Smoke tests for LLM, embedding, and OVMS chat endpoints.
-- Benchmark workflows for LLM, embedding, and generic OpenVINO IR models.
-- Device guidance for CPU, GPU, NPU, `AUTO`, and `AUTO:GPU,CPU`.
-- Local model case notes for Qwen3, Qwen3 Embedding, Qwen3 Reranker, Gemma, GPT-OSS, and AWQ-style artifacts.
+## 覆盖范围
 
-## Structure
+- 使用 `ovc`、`openvino.convert_model` 和 `optimum-cli export openvino` 进行模型转换。
+- INT4、INT8、NF4 和 NNCF 相关量化/压缩决策。
+- 通过 Python runtime、OpenVINO GenAI、OVMS Docker、OVMS bare metal 和 KServe 部署。
+- LLM、Embedding 和 OVMS chat endpoint 的 smoke test。
+- LLM、Embedding 和通用 OpenVINO IR 模型的 Benchmark 流程。
+- CPU、GPU、NPU、`AUTO`、`AUTO:GPU,CPU` 的设备选择建议。
+- Qwen3、Qwen3 Embedding、Qwen3 Reranker、Gemma、GPT-OSS 和 AWQ 类本地模型案例。
+
+## 目录结构
 
 ```text
 openvino-skills/
@@ -39,76 +41,76 @@ openvino-skills/
     └── smoke_llm.py
 ```
 
-## Installation
+## 安装
 
-Clone this repository into your Codex skills directory:
+克隆到 Codex skills 目录：
 
 ```bash
 cd ~/.codex/skills
 git clone https://github.com/zhao123xiao/openvino-skills.git openvino-skills
 ```
 
-If your Codex home is on Windows-mounted storage, use that skills directory instead, for example:
+如果 Codex home 在 Windows 挂载目录中，可以使用对应路径，例如：
 
 ```bash
 cd /mnt/c/Users/赵晓晓/.codex/skills
 git clone https://github.com/zhao123xiao/openvino-skills.git openvino-skills
 ```
 
-Validate the skill if you have the system skill validator available:
+如果本地有系统 skill 校验器，可以运行：
 
 ```bash
 ~/.codex/skills/.system/skill-creator/scripts/quick_validate.py ~/.codex/skills/openvino-skills
 ```
 
-## Example Prompts
+## 示例提示词
 
 ```text
-Use $openvino-skills to convert Qwen/Qwen3-Embedding-8B to INT4 OpenVINO and validate the output.
+Use $openvino-skills 用中文把 Qwen/Qwen3-Embedding-8B 转成 INT4 OpenVINO，并验证输出产物。
 ```
 
 ```text
-Use $openvino-skills to deploy /mnt/d/models/ov/Qwen3-0.6B with OVMS and test the OpenAI-compatible chat endpoint.
+Use $openvino-skills 用中文将 /mnt/d/models/ov/Qwen3-0.6B 通过 OVMS 部署，并测试 OpenAI-compatible chat endpoint。
 ```
 
 ```text
-Use $openvino-skills to benchmark this OpenVINO model on CPU, GPU, and NPU, then report the tested devices and failures.
+Use $openvino-skills 用中文 benchmark 这个 OpenVINO 模型在 CPU、GPU、NPU 上的表现，并报告可用设备和失败原因。
 ```
 
-## Useful Scripts
+## 常用脚本
 
-Inspect a model artifact:
+检查模型产物：
 
 ```bash
 python3 scripts/inspect_openvino_artifact.py /mnt/d/models/ov/Qwen3-0.6B
 ```
 
-Probe OpenVINO devices:
+探测 OpenVINO 设备：
 
 ```bash
 python3 scripts/openvino_probe.py
 ```
 
-Run a small LLM smoke test:
+运行 LLM smoke test：
 
 ```bash
 python3 scripts/smoke_llm.py /mnt/d/models/ov/Qwen3-0.6B --device CPU
 ```
 
-Run an embedding smoke test:
+运行 Embedding smoke test：
 
 ```bash
 python3 scripts/smoke_embedding.py /mnt/d/models/ov/Qwen3-Embedding-8B-int4-ov
 ```
 
-Benchmark a model:
+运行 Benchmark：
 
 ```bash
 python3 scripts/benchmark_openvino_model.py /mnt/d/models/ov/Qwen3-0.6B --kind llm --devices CPU --max-new-tokens 64 --repeats 3
 ```
 
-## Notes
+## 注意事项
 
-- The skill assumes local OpenVINO artifacts often live under `/mnt/d/models/ov`.
-- Some references mention the local Chroma knowledge base at `/mnt/d/knowledge-base/chroma_data/chroma.sqlite3`; that path is specific to the original authoring environment.
-- NPU support is intentionally conservative. Always run CPU smoke first, then NPU compile/smoke, and report the exact failure if NPU is unavailable or incompatible.
+- 该 skill 默认假设本地 OpenVINO 模型常放在 `/mnt/d/models/ov`。
+- 部分 reference 会提到本地 Chroma 知识库 `/mnt/d/knowledge-base/chroma_data/chroma.sqlite3`，这是原始构建环境中的路径。
+- NPU 支持保持保守策略：先跑 CPU smoke，再跑 NPU compile/smoke；如果 NPU 不可用或模型不兼容，需要报告准确失败原因。

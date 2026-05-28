@@ -1,4 +1,4 @@
 interface:
   display_name: "OpenVINO SOP"
-  short_description: "Deploy, test, and quantize OpenVINO models"
-  default_prompt: "Use $openvino-skills to convert, quantize, deploy, and validate this model with OpenVINO."
+  short_description: "部署、测试和量化 OpenVINO 模型"
+  default_prompt: "Use $openvino-skills 用中文完成这个 OpenVINO 模型的转换、量化、部署和验证。"
