@@ -1,8 +1,8 @@
 # OpenVINO Skills
 
-`openvino-skills` 是一个 Codex skill，用来把本地 OpenVINO 知识库中的内容固化为可重复执行的 SOP，覆盖模型转换、量化、部署、冒烟测试、Benchmark、设备选择和排障。
+`openvino-skills` 是一个 Codex skill，用来提供可重复执行的 OpenVINO SOP，覆盖模型转换、量化、部署、冒烟测试、Benchmark、设备选择和排障。
 
-该 skill 的目标不是复述官方文档，而是降低 OpenVINO 实操门槛：引导 agent 走固定路线，例如将 Hugging Face 模型导出为 OpenVINO IR、将 LLM 压缩为 INT4/INT8、通过 OpenVINO Model Server 部署服务、测试 `/v3` OpenAI-compatible endpoint，以及评估 CPU/GPU/NPU 性能。
+该 skill 的目标是降低 OpenVINO 实操门槛：引导 agent 走固定路线，例如将 Hugging Face 模型导出为 OpenVINO IR、将 LLM 压缩为 INT4/INT8、通过 OpenVINO Model Server 部署服务、测试 `/v3` OpenAI-compatible endpoint，以及评估 CPU/GPU/NPU 性能。
 
 默认使用中文输出说明、进度、结论和排障建议；命令、代码、模型 ID、文件路径和 API 名称保持原样。
 
@@ -38,7 +38,6 @@ openvino-skills/
     ├── openvino_probe.py
     ├── ovms_chat_smoke.py
     ├── path_utils.py
-    ├── search_openvino_kb.py
     ├── smoke_embedding.py
     └── smoke_llm.py
 ```
@@ -120,5 +119,4 @@ python3 scripts/benchmark_openvino_model.py /mnt/d/models/ov/Qwen3-0.6B --kind l
 ## 注意事项
 
 - 对用户说明时默认使用 Windows 路径，例如 `D:\models\ov`；只有在 WSL/Linux 命令中才使用 `/mnt/d/models/ov`。
-- 部分 reference 会提到本地 Chroma 知识库 `D:\knowledge-base\chroma_data\chroma.sqlite3`，在 WSL 中对应 `/mnt/d/knowledge-base/chroma_data/chroma.sqlite3`。
 - NPU 支持保持保守策略：先跑 CPU smoke，再跑 NPU compile/smoke；如果 NPU 不可用或模型不兼容，需要报告准确失败原因。

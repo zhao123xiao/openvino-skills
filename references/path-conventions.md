@@ -8,7 +8,6 @@
 | --- | --- | --- |
 | Local OpenVINO models | `D:\models\ov\<model>` | `/mnt/d/models/ov/<model>` |
 | Alternate local model root | `D:\openvino-models\<model>` | `/mnt/d/openvino-models/<model>` |
-| Local knowledge base | `D:\knowledge-base\chroma_data\chroma.sqlite3` | `/mnt/d/knowledge-base/chroma_data/chroma.sqlite3` |
 | Codex skill folder on Windows mount | `C:\Users\赵晓晓\.codex\skills\openvino-skills` | `/mnt/c/Users/赵晓晓/.codex/skills/openvino-skills` |
 
 ## Rules
