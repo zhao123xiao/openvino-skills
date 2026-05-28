@@ -1,5 +1,7 @@
 # Convert And Quantize SOP
 
+Path note: use Windows paths such as `D:\models\ov\<target-name>` in user-facing summaries. Use `/mnt/d/models/ov/<target-name>` only inside WSL/Linux shell examples. See `path-conventions.md`.
+
 ## Decision Tree
 
 1. If the source is already an OpenVINO IR or OpenVINO organization model with `.xml`/`.bin`, skip conversion and validate.

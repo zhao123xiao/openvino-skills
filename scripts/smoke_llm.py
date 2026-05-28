@@ -9,6 +9,7 @@ import time
 from pathlib import Path
 
 from optimum.intel.openvino import OVModelForCausalLM
+from path_utils import normalize_path
 from transformers import AutoTokenizer
 
 
@@ -23,20 +24,21 @@ def parse_args() -> argparse.Namespace:
 
 def main() -> int:
     args = parse_args()
-    config_path = args.model_dir / "config.json"
+    model_dir = normalize_path(args.model_dir)
+    config_path = model_dir / "config.json"
     use_cache = True
     if config_path.exists():
         cfg = json.loads(config_path.read_text(encoding="utf-8"))
         use_cache = cfg.get("use_cache", True)
 
     tokenizer = AutoTokenizer.from_pretrained(
-        args.model_dir,
+        model_dir,
         local_files_only=True,
         trust_remote_code=True,
         fix_mistral_regex=True,
     )
     model = OVModelForCausalLM.from_pretrained(
-        args.model_dir,
+        model_dir,
         local_files_only=True,
         trust_remote_code=True,
         device=args.device,
@@ -57,7 +59,7 @@ def main() -> int:
     new_tokens = outputs.shape[-1] - input_tokens
     text = tokenizer.decode(outputs[0][input_tokens:], skip_special_tokens=True).strip()
 
-    print(f"model_dir: {args.model_dir}")
+    print(f"model_dir: {model_dir}")
     print(f"device: {args.device}")
     print(f"use_cache: {use_cache}")
     print(f"input_tokens: {input_tokens}")

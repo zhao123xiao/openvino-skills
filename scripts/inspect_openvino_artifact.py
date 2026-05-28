@@ -7,6 +7,8 @@ import argparse
 import json
 from pathlib import Path
 
+from path_utils import normalize_path
+
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Inspect local OpenVINO model artifacts.")
@@ -24,7 +26,7 @@ def paired_xml_bin(model_dir: Path) -> list[tuple[Path, Path | None]]:
 
 def main() -> int:
     args = parse_args()
-    model_dir = args.model_dir
+    model_dir = normalize_path(args.model_dir)
     if not model_dir.exists():
         print(f"ERROR model_dir_missing {model_dir}")
         return 2

@@ -4,13 +4,15 @@
 from __future__ import annotations
 
 import argparse
+import os
 import re
 import sqlite3
 import sys
 from pathlib import Path
 
+from path_utils import normalize_path
 
-DEFAULT_DB = Path("/mnt/d/knowledge-base/chroma_data/chroma.sqlite3")
+DEFAULT_DB = normalize_path(os.environ.get("OPENVINO_KB_DB", r"D:\knowledge-base\chroma_data\chroma.sqlite3"))
 DEFAULT_COLLECTION = "openvino-kb"
 
 

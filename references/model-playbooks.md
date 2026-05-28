@@ -2,6 +2,8 @@
 
 Use this file first when the user names a model family or use case. It converts local OpenVINO documentation into direct operating routes.
 
+Path note: `D:\models\ov\<target>` is the normal Windows path. `/mnt/d/models/ov/<target>` is only the WSL/Linux equivalent used inside shell examples.
+
 ## Quick Matrix
 
 | Use case | Convert route | Quantization route | Test route | Deploy route |

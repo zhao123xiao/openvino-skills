@@ -8,6 +8,7 @@ from pathlib import Path
 
 import numpy as np
 from optimum.intel.openvino import OVModelForFeatureExtraction
+from path_utils import normalize_path
 from transformers import AutoTokenizer
 
 
@@ -20,15 +21,16 @@ def parse_args() -> argparse.Namespace:
 
 def main() -> int:
     args = parse_args()
+    model_dir = normalize_path(args.model_dir)
     texts = args.text or ["hello openvino", "中文向量测试"]
     tokenizer = AutoTokenizer.from_pretrained(
-        args.model_dir,
+        model_dir,
         local_files_only=True,
         trust_remote_code=True,
         fix_mistral_regex=True,
     )
     model = OVModelForFeatureExtraction.from_pretrained(
-        args.model_dir,
+        model_dir,
         local_files_only=True,
         trust_remote_code=True,
         compile=False,
@@ -37,7 +39,7 @@ def main() -> int:
     output = model(**inputs)
     hidden = output.last_hidden_state
     sample = hidden[0, -1].detach().cpu().numpy()
-    print(f"model_dir: {args.model_dir}")
+    print(f"model_dir: {model_dir}")
     print(f"tokenizer: {tokenizer.__class__.__name__}")
     print(f"shape: {tuple(hidden.shape)}")
     print(f"dtype: {hidden.dtype}")

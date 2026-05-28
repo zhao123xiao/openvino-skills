@@ -29,6 +29,7 @@ openvino-skills/
 │   ├── local-model-cases.md
 │   ├── model-playbooks.md
 │   ├── npu-playbook.md
+│   ├── path-conventions.md
 │   ├── report-template.md
 │   └── test-benchmark-sop.md
 └── scripts/
@@ -36,6 +37,7 @@ openvino-skills/
     ├── inspect_openvino_artifact.py
     ├── openvino_probe.py
     ├── ovms_chat_smoke.py
+    ├── path_utils.py
     ├── search_openvino_kb.py
     ├── smoke_embedding.py
     └── smoke_llm.py
@@ -70,7 +72,7 @@ Use $openvino-skills 用中文把 Qwen/Qwen3-Embedding-8B 转成 INT4 OpenVINO�
 ```
 
 ```text
-Use $openvino-skills 用中文将 /mnt/d/models/ov/Qwen3-0.6B 通过 OVMS 部署，并测试 OpenAI-compatible chat endpoint。
+Use $openvino-skills 用中文将 D:\models\ov\Qwen3-0.6B 通过 OVMS 部署，并测试 OpenAI-compatible chat endpoint。
 ```
 
 ```text
@@ -83,6 +85,12 @@ Use $openvino-skills 用中文 benchmark 这个 OpenVINO 模型在 CPU、GPU、N
 
 ```bash
 python3 scripts/inspect_openvino_artifact.py /mnt/d/models/ov/Qwen3-0.6B
+```
+
+也可以直接传 Windows 路径，脚本在 WSL 下会自动转换：
+
+```bash
+python3 scripts/inspect_openvino_artifact.py 'D:\models\ov\Qwen3-0.6B'
 ```
 
 探测 OpenVINO 设备：
@@ -111,6 +119,6 @@ python3 scripts/benchmark_openvino_model.py /mnt/d/models/ov/Qwen3-0.6B --kind l
 
 ## 注意事项
 
-- 该 skill 默认假设本地 OpenVINO 模型常放在 `/mnt/d/models/ov`。
-- 部分 reference 会提到本地 Chroma 知识库 `/mnt/d/knowledge-base/chroma_data/chroma.sqlite3`，这是原始构建环境中的路径。
+- 对用户说明时默认使用 Windows 路径，例如 `D:\models\ov`；只有在 WSL/Linux 命令中才使用 `/mnt/d/models/ov`。
+- 部分 reference 会提到本地 Chroma 知识库 `D:\knowledge-base\chroma_data\chroma.sqlite3`，在 WSL 中对应 `/mnt/d/knowledge-base/chroma_data/chroma.sqlite3`。
 - NPU 支持保持保守策略：先跑 CPU smoke，再跑 NPU compile/smoke；如果 NPU 不可用或模型不兼容，需要报告准确失败原因。

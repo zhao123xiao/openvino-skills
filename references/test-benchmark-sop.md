@@ -1,5 +1,7 @@
 # Test And Benchmark SOP
 
+Path note: report model locations as Windows paths such as `D:\models\ov\<target>`. Use WSL paths such as `/mnt/d/models/ov/<target>` only for commands executed in WSL/Linux. The helper scripts accept either form.
+
 ## Test Order
 
 1. Check files exist.

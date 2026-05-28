@@ -22,7 +22,8 @@ Treat OpenVINO work as a pipeline: lock inputs, convert or pull the model, valid
 5. **Start from a model/use-case type**: read `references/model-playbooks.md`.
 6. **Use a known local model case**: read `references/local-model-cases.md`.
 7. **Target NPU specifically**: read `references/npu-playbook.md`.
-8. **Need exact local KB evidence**: run `scripts/search_openvino_kb.py` before finalizing commands.
+8. **Handle Windows/WSL paths**: read `references/path-conventions.md`.
+9. **Need exact local KB evidence**: run `scripts/search_openvino_kb.py` before finalizing commands.
 
 For remote HPCCube model quantization and delivery to `D:\models\ov`, use the separate `openvino-model-quantization` skill.
 
@@ -32,7 +33,7 @@ Before making changes or running long jobs, record:
 
 - Source model id/path and license/access constraints.
 - Task type: `text-generation`, `feature-extraction`, `rerank`, `text-to-image`, `image-to-text`, ASR, CV classification/detection, or generic IR.
-- Target artifact directory, usually under `/mnt/d/models/ov/<name>` for local Windows storage.
+- Target artifact directory, usually `D:\models\ov\<name>` for local Windows storage. Use `/mnt/d/models/ov/<name>` only inside WSL/Linux commands.
 - Target device: `CPU`, `GPU`, `NPU`, `AUTO`, or explicit priority such as `AUTO:GPU,CPU`.
 - Precision target: FP32/FP16, INT8, INT4, NF4, or already-compressed OpenVINO model.
 - Deployment target: Python runtime, OpenVINO GenAI, OVMS Docker, OVMS bare metal, or KServe.
@@ -64,9 +65,9 @@ Use `references/report-template.md` for the final report shape when the task inc
 
 The SOP is distilled from the local OpenVINO Chroma collection:
 
-- DB: `/mnt/d/knowledge-base/chroma_data/chroma.sqlite3`
+- DB: `D:\knowledge-base\chroma_data\chroma.sqlite3` on Windows, `/mnt/d/knowledge-base/chroma_data/chroma.sqlite3` in WSL.
 - Collection: `openvino-kb`
-- Mirrors: `/mnt/d/openvino-knowledge-base`, `/mnt/d/models/openvino-master`, `/mnt/d/models/openvino_notebooks-latest`
+- Mirrors: `D:\openvino-knowledge-base`, `D:\models\openvino-master`, `D:\models\openvino_notebooks-latest` on Windows.
 
 Use local KB search when exact flags, source examples, or current local conventions matter:
 

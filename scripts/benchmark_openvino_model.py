@@ -10,6 +10,8 @@ import subprocess
 import time
 from pathlib import Path
 
+from path_utils import normalize_path
+
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Benchmark an OpenVINO model artifact.")
@@ -183,6 +185,7 @@ def bench_generic(args: argparse.Namespace) -> int:
 
 def main() -> int:
     args = parse_args()
+    args.model_dir = normalize_path(args.model_dir)
     if args.repeats < 1:
         raise SystemExit("--repeats must be >= 1")
     if not args.model_dir.exists():
